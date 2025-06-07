@@ -1,0 +1,78 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer base {
+  :root {
+    @apply transition-colors duration-200;
+  }
+
+  body {
+    @apply transition-colors duration-200;
+  }
+
+  .dark {
+    @apply bg-dark text-text-dark;
+  }
+
+  .light {
+    @apply bg-light text-text-light;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-200 dark:bg-dark-lighter;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-accent/50 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-accent/70;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/50 dark:bg-dark-lighter/50 backdrop-blur-sm border border-gray-200 dark:border-accent/10 hover:border-accent/30 transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-lg text-white bg-accent hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent transition-all duration-200 hover:shadow-lg hover:shadow-accent/20;
+  }
+
+  .input-field {
+    @apply mt-1 block w-full rounded-lg bg-white dark:bg-dark/50 border-gray-300 dark:border-accent/20 text-gray-900 dark:text-text-dark shadow-sm focus:border-accent focus:ring-accent text-base px-4 py-3 transition-all duration-200;
+  }
+
+  .section-padding {
+    @apply py-20 px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Common container styles */
+  .container-card {
+    @apply bg-white dark:bg-dark-lighter rounded-xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.1)] dark:shadow-none transition-all duration-200;
+  }
+
+  .container-card-light {
+    @apply bg-gray-50 dark:bg-dark-lighter/50 rounded-lg p-6 text-gray-900 dark:text-text-dark;
+  }
+
+  /* Text styles */
+  .text-primary {
+    @apply text-gray-900 dark:text-text-dark;
+  }
+
+  .text-secondary {
+    @apply text-gray-600 dark:text-gray-300;
+  }
+
+  .text-muted {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+}
