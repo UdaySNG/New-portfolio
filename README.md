@@ -68,6 +68,34 @@ npm run build
 
 The project uses Tailwind CSS for styling, making it easy to customize colors, spacing, and other design elements. The main configuration can be found in `tailwind.config.js`.
 
+## 🔄 Development Workflow
+
+This project uses a development branch workflow:
+
+- `main` branch: Production-ready code
+- `development` branch: Active development
+
+To contribute:
+1. Work on the development branch
+2. Push changes to development
+3. When features are complete, merge to main
+
+```bash
+# Start new feature
+git checkout development
+git pull origin development
+
+# After making changes
+git add .
+git commit -m "Feature: your changes"
+git push origin development
+
+# When ready for production
+git checkout main
+git merge development
+git push origin main
+```
+
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
