@@ -37,7 +37,7 @@ const Timeline = () => {
   };
 
   if (loading) return <Loading text="Loading timeline..." compact />;
-  if (error) return <div className="text-center text-red-400">{error}</div>;
+  if (error) return <Loading text="Loading timeline..." compact error={error} />;
 
   return (
     <div className="relative">

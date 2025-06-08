@@ -8,24 +8,14 @@ const useFetchTimeline = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchTimeline = async () => {
+    const fetchEvents = async () => {
       try {
         const response = await fetch(`${BASE_URL}/timeline`);
-        
         if (!response.ok) {
-          throw new Error(`Failed to fetch timeline: ${response.status} ${response.statusText}`);
+          throw new Error('Failed to fetch timeline events');
         }
-        
         const data = await response.json();
-        const timelineData = Array.isArray(data) ? data : data.data;
-        
-        if (!timelineData) {
-          throw new Error('No timeline data received');
-        }
-        
-        // Sort events by date
-        const sortedEvents = timelineData.sort((a, b) => new Date(b.date) - new Date(a.date));
-        setEvents(sortedEvents);
+        setEvents(data);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -33,7 +23,7 @@ const useFetchTimeline = () => {
       }
     };
 
-    fetchTimeline();
+    fetchEvents();
   }, []);
 
   return { events, loading, error };
