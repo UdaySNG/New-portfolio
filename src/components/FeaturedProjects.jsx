@@ -1,33 +1,10 @@
 import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
+import ProjectCard from './ProjectCard';
+import useFetchProjects from '../hooks/useFetchProjects';
 
 const FeaturedProjects = () => {
-  const projects = [
-    {
-      title: 'Project 1',
-      description: 'A full-stack web application built with React and Node.js.',
-      image: '/project1.jpg',
-      technologies: ['React', 'Node.js', 'MongoDB'],
-      github: 'https://github.com/yourusername/project1',
-      live: 'https://project1.com'
-    },
-    {
-      title: 'Project 2',
-      description: 'A mobile-first responsive website with modern design.',
-      image: '/project2.jpg',
-      technologies: ['React', 'Tailwind CSS', 'Framer Motion'],
-      github: 'https://github.com/yourusername/project2',
-      live: 'https://project2.com'
-    },
-    {
-      title: 'Project 3',
-      description: 'An e-commerce platform with real-time features.',
-      image: '/project3.jpg',
-      technologies: ['Next.js', 'Firebase', 'Stripe'],
-      github: 'https://github.com/yourusername/project3',
-      live: 'https://project3.com'
-    }
-  ];
+  const { projects, loading, error } = useFetchProjects();
 
   return (
     <section id="featured-projects" className="py-20 relative overflow-hidden">
@@ -65,60 +42,19 @@ const FeaturedProjects = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="container-card overflow-hidden group"
-            >
-              <div className="relative">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-accent transition-colors"
-                    title="View Source Code"
-                  >
-                    <FaGithub className="w-6 h-6" />
-                  </a>
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-accent transition-colors"
-                    title="View Live Demo"
-                  >
-                    <FaExternalLinkAlt className="w-6 h-6" />
-                  </a>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-primary">{project.title}</h3>
-                <p className="text-secondary mb-4">{project.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies.map((tech, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-center text-gray-400">Loading projects...</div>
+        ) : error ? (
+          <div className="text-center text-red-400">{error}</div>
+        ) : projects && projects.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.slice(0, 3).map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center text-gray-400">No projects found</div>
+        )}
       </div>
     </section>
   );

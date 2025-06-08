@@ -34,18 +34,18 @@ const SocialLinks = ({ className = '' }) => {
           href={link.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center text-gray-400 hover:text-accent"
+          className="group flex items-center text-gray-500 dark:text-gray-400 hover:text-accent"
           aria-label={link.name}
         >
           <div className="p-2">
-            <div className="transform transition-transform duration-500 ease-in-out group-hover:translate-x-[-1rem]">
+            <div className="transform transition-transform duration-500 ease-in-out group-hover:translate-x-[-1rem] text-gray-500 dark:text-gray-400 group-hover:text-accent">
               {link.icon}
             </div>
           </div>
           <div className="max-w-0 group-hover:max-w-[200px] overflow-hidden transition-all duration-500 ease-in-out">
             <div className="ml-2 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out transform translate-x-[-100%] group-hover:translate-x-0 text-left">
-              <div className="text-sm font-medium whitespace-nowrap text-left">{link.label}</div>
-              <div className="text-xs text-gray-500 whitespace-nowrap text-left">{link.description}</div>
+              <div className="text-sm font-medium whitespace-nowrap text-left text-gray-700 dark:text-gray-300">{link.label}</div>
+              <div className="text-xs text-gray-500 dark:text-gray-500 whitespace-nowrap text-left">{link.description}</div>
             </div>
           </div>
         </a>

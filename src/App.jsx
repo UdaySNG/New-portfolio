@@ -1,18 +1,27 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
+import AboutPreview from './components/AboutPreview';
 import FeaturedProjects from './components/FeaturedProjects';
 import GetInTouch from './components/GetInTouch';
-import Timeline from './components/Timeline';
-import Projects from './pages/Projects';
-import ProjectDetail from './pages/ProjectDetail';
-import Contact from './pages/Contact';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import ThemeToggle from './components/ThemeToggle';
-import Services from './pages/Services';
+
+// Lazy load pages
+const About = lazy(() => import('./pages/About'));
+const Services = lazy(() => import('./pages/Services'));
+const Projects = lazy(() => import('./pages/Projects'));
+const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
+const Contact = lazy(() => import('./pages/Contact'));
+
+// Loading component
+const Loading = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent"></div>
+  </div>
+);
 
 // Component to handle scroll behavior
 const ScrollToTopOnRouteChange = () => {
@@ -39,16 +48,36 @@ function App() {
           <Route path="/" element={
             <>
               <Hero />
-              <About />
-              <Timeline />
+              <AboutPreview />
               <FeaturedProjects />
               <GetInTouch />
             </>
           } />
-          <Route path="/services" element={<Services />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/projects/:id" element={<ProjectDetail />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={
+            <Suspense fallback={<Loading />}>
+              <About />
+            </Suspense>
+          } />
+          <Route path="/services" element={
+            <Suspense fallback={<Loading />}>
+              <Services />
+            </Suspense>
+          } />
+          <Route path="/projects" element={
+            <Suspense fallback={<Loading />}>
+              <Projects />
+            </Suspense>
+          } />
+          <Route path="/projects/:id" element={
+            <Suspense fallback={<Loading />}>
+              <ProjectDetail />
+            </Suspense>
+          } />
+          <Route path="/contact" element={
+            <Suspense fallback={<Loading />}>
+              <Contact />
+            </Suspense>
+          } />
         </Routes>
         <Footer />
         <ScrollToTop />

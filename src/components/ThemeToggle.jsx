@@ -6,19 +6,15 @@ const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('theme');
-      console.log('Initial theme from localStorage:', saved);
       if (saved) {
         return saved === 'dark';
       }
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      console.log('System prefers dark:', prefersDark);
-      return prefersDark;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
     return true;
   });
 
   useEffect(() => {
-    console.log('Theme changed to:', isDark ? 'dark' : 'light');
     const root = window.document.documentElement;
     
     if (isDark) {
@@ -30,11 +26,9 @@ const ThemeToggle = () => {
     }
     
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    console.log('Current classes on root:', root.classList.toString());
   }, [isDark]);
 
   const handleToggle = () => {
-    console.log('Toggle clicked, current theme:', isDark ? 'dark' : 'light');
     setIsDark(!isDark);
   };
 

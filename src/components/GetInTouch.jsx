@@ -1,12 +1,41 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { FaArrowRight, FaEnvelope, FaPhone, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 import SocialLinks from './SocialLinks';
 
 const GetInTouch = () => {
+  const contactInfo = [
+    {
+      icon: <FaEnvelope className="w-6 h-6" />,
+      title: "Email",
+      content: "udaysngjobs@gmail.com",
+      link: "mailto:udaysngjobs@gmail.com"
+    },
+    {
+      icon: <FaPhone className="w-6 h-6" />,
+      title: "Phone",
+      content: "+31 6 12345678",
+      link: "tel:+31612345678"
+    },
+    {
+      icon: <FaMapMarkerAlt className="w-6 h-6" />,
+      title: "Location",
+      content: "Amsterdam, Netherlands",
+      link: null
+    },
+    {
+      icon: <FaClock className="w-6 h-6" />,
+      title: "Availability",
+      content: "Mon-Fri, 9:00-17:00",
+      link: null
+    }
+  ];
+
   return (
     <section id="contact" className="py-20 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(3)].map((_, i) => (
+        {[...Array(5)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-32 h-32 rounded-full bg-accent/5"
@@ -39,59 +68,58 @@ const GetInTouch = () => {
           </p>
         </motion.div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto mb-16">
+          {/* Contact Information Cards */}
+          {contactInfo.map((info, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-white dark:bg-dark-lighter/50 backdrop-blur-sm rounded-xl p-6 hover:bg-gray-50 dark:hover:bg-dark-lighter/70 transition-colors shadow-sm dark:shadow-none"
+            >
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                  {info.icon}
+                </div>
+                <div className="text-left">
+                  <h3 className="text-lg font-medium mb-1 text-gray-900 dark:text-white">{info.title}</h3>
+                  {info.link ? (
+                    <a 
+                      href={info.link}
+                      className="text-gray-600 dark:text-gray-400 hover:text-accent transition-colors"
+                    >
+                      {info.content}
+                    </a>
+                  ) : (
+                    <p className="text-gray-600 dark:text-gray-400">{info.content}</p>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="max-w-2xl mx-auto"
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="max-w-2xl mx-auto text-center"
         >
-          <SocialLinks className="mb-12" />
+          <div className="bg-white dark:bg-dark-lighter/50 backdrop-blur-sm rounded-xl p-8 mb-8 shadow-sm dark:shadow-none">
+            <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Connect with me</h3>
+            <SocialLinks className="mb-0" />
+          </div>
           
-          <form className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  className="w-full px-4 py-2 bg-dark-lighter/50 border border-gray-700 rounded-lg focus:outline-none focus:border-accent transition-colors"
-                  placeholder="Your name"
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="w-full px-4 py-2 bg-dark-lighter/50 border border-gray-700 rounded-lg focus:outline-none focus:border-accent transition-colors"
-                  placeholder="your.email@example.com"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">
-                Message
-              </label>
-              <textarea
-                id="message"
-                rows="4"
-                className="w-full px-4 py-2 bg-dark-lighter/50 border border-gray-700 rounded-lg focus:outline-none focus:border-accent transition-colors"
-                placeholder="Your message..."
-              ></textarea>
-            </div>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full bg-accent hover:bg-accent/90 text-white font-semibold py-3 rounded-lg transition-colors"
-            >
-              Send Message
-            </motion.button>
-          </form>
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-accent hover:bg-accent/90 text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-accent/20"
+          >
+            Contact Me
+            <FaArrowRight />
+          </Link>
         </motion.div>
       </div>
     </section>

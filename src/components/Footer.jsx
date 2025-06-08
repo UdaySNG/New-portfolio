@@ -1,4 +1,4 @@
-import { FaReact, FaCss3Alt, FaHeart } from 'react-icons/fa';
+import { FaReact, FaHeart } from 'react-icons/fa';
 import { SiTailwindcss, SiFramer } from 'react-icons/si';
 import { motion } from 'framer-motion';
 
@@ -36,26 +36,19 @@ const Footer = () => {
       <div className="container mx-auto px-4 relative">
         <div className="flex flex-col items-center gap-8">
           {/* Tech Stack */}
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-4">
             {techStack.map((tech, index) => (
               <motion.div
                 key={tech.name}
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: index * 0.2 }}
-                className="group"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                className="w-10 h-10 rounded-lg bg-white dark:bg-dark-lighter shadow-md flex items-center justify-center cursor-pointer"
               >
-                <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="flex flex-col items-center gap-2"
-                >
-                  <div className={`${tech.color} p-3 rounded-xl bg-dark-lighter/50 backdrop-blur-sm`}>
-                    {tech.icon}
-                  </div>
-                  <span className="text-sm text-gray-400 group-hover:text-accent transition-colors duration-300">
-                    {tech.name}
-                  </span>
-                </motion.div>
+                <div className={tech.color}>
+                  {tech.icon}
+                </div>
               </motion.div>
             ))}
           </div>

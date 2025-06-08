@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+const BASE_URL = 'http://localhost:8000/api';
+
 const useFetchProjects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -8,18 +10,23 @@ const useFetchProjects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        // For now, we'll use the local JSON file
-        // Later, this will be replaced with the actual API endpoint
-        const response = await fetch('/src/data/projects.json');
+        const response = await fetch(`${BASE_URL}/projects`);
+        
         if (!response.ok) {
-          throw new Error('Failed to fetch projects');
+          throw new Error(`Failed to fetch projects: ${response.status} ${response.statusText}`);
         }
+        
         const data = await response.json();
-        // Access the projects array from the nested structure
-        setProjects(data.projects || []);
+        const projectsData = Array.isArray(data) ? data : data.data;
+        
+        if (!projectsData) {
+          throw new Error('No projects data received');
+        }
+        
+        setProjects(projectsData);
+        setLoading(false);
       } catch (err) {
         setError(err.message);
-      } finally {
         setLoading(false);
       }
     };

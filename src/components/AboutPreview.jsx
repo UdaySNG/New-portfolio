@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
-import { FaArrowRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { FaArrowRight } from 'react-icons/fa';
 
-const About = () => {
+const AboutPreview = () => {
   return (
     <section className="py-20 relative overflow-hidden">
       {/* Animated background elements */}
@@ -33,9 +33,9 @@ const About = () => {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">About Me</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">Wie ben ik?</h2>
           <p className="text-secondary max-w-2xl mx-auto mb-8">
-            Software developer in opleiding bij Mediacollege Amsterdam, met passie voor moderne web technologieën.
+            Ik ben een software developer in opleiding bij Mediacollege Amsterdam. Momenteel volg ik de MBO 4 opleiding Software Development en loop ik stage bij 12build. Ik ben gepassioneerd over moderne web technologieën en het bouwen van gebruiksvriendelijke applicaties.
           </p>
           <Link 
             to="/about" 
@@ -50,4 +50,4 @@ const About = () => {
   );
 };
 
-export default About; 
+export default AboutPreview; 

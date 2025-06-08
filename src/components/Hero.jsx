@@ -65,7 +65,7 @@ const Hero = () => {
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6 group">
               <span className="inline-block">
-                <TypewriterText text="Hi, I'm Uday Singh" delay={100} />
+                <TypewriterText text="Hi, I'm Uday" delay={100} />
               </span>
               <span className="text-accent relative inline-block">
                 <motion.span
@@ -82,7 +82,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-2xl md:text-3xl text-gray-400 mb-4"
+            className="text-2xl md:text-3xl text-gray-700 dark:text-gray-200 mb-4"
           >
             Full Stack Developer
           </motion.h2>
@@ -91,9 +91,9 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="text-gray-400 max-w-2xl mx-auto mb-8"
+            className="text-gray-700 dark:text-gray-200 max-w-2xl mx-auto mb-8"
           >
-            Crafting modern web experiences with clean code and creative solutions
+            Software developer in opleiding bij Mediacollege Amsterdam, met passie voor moderne web technologieën.
           </motion.p>
 
           <motion.div
@@ -104,14 +104,14 @@ const Hero = () => {
           >
             <Link
               to="/projects"
-              className="group bg-accent hover:bg-accent/90 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-accent/20"
+              className="group bg-accent-dark hover:bg-accent text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-accent/20"
             >
               View Projects
             </Link>
             <a
               href="/resume.pdf"
               download
-              className="group flex items-center justify-center gap-2 bg-dark-lighter hover:bg-dark-lighter/80 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-accent/10"
+              className="group flex items-center justify-center gap-2 bg-dark-lighter hover:bg-dark-lighter/90 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-accent/10"
             >
               <FaDownload className="w-4 h-4 group-hover:animate-bounce" />
               Download CV
@@ -131,10 +131,10 @@ const Hero = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
-                <div className="p-3 rounded-full bg-dark-lighter/50 group-hover:bg-accent/10 transition-colors">
+                <div className="p-3 rounded-full bg-gray-100 dark:bg-dark-lighter/50 group-hover:bg-accent/10 transition-colors">
                   {skill.icon}
                 </div>
-                <span className="text-sm text-gray-400 group-hover:text-accent transition-colors">
+                <span className="text-sm text-gray-700 dark:text-gray-200 group-hover:text-accent transition-colors">
                   {skill.text}
                 </span>
               </motion.div>
