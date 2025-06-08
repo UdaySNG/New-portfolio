@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaFilter } from 'react-icons/fa';
 import useFetchProjects from '../hooks/useFetchProjects';
 import useFetchCategories from '../hooks/useFetchCategories';
 import ProjectCard from '../components/ProjectCard';
+import Loading from '../components/Loading';
 
 const Projects = () => {
   const { projects, loading: projectsLoading, error: projectsError } = useFetchProjects();
@@ -12,6 +13,9 @@ const Projects = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTech, setSelectedTech] = useState([]);
+
+  const loading = projectsLoading || categoriesLoading;
+  const error = projectsError || categoriesError;
 
   // Get unique technologies from all projects
   const availableTech = [...new Set(projects?.flatMap(project => 
@@ -26,11 +30,8 @@ const Projects = () => {
   };
 
   const filteredProjects = projects?.filter(project => {
-    console.log('Project category:', project.category);
-    console.log('Selected category:', selectedCategory);
     const matchesCategory = selectedCategory === 'all' || 
       (project.category && project.category.toLowerCase() === (categoryMapping[selectedCategory] || selectedCategory).toLowerCase());
-    console.log('Matches category:', matchesCategory);
     const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          project.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesTech = selectedTech.length === 0 || 
@@ -53,8 +54,8 @@ const Projects = () => {
     setSelectedTech([]);
   };
 
-  const loading = projectsLoading || categoriesLoading;
-  const error = projectsError || categoriesError;
+  if (loading) return <Loading text="Fetching projects..." />;
+  if (error) return <div className="min-h-screen bg-white dark:bg-dark pt-20 text-center text-red-400">{error}</div>;
 
   return (
     <div className="min-h-screen py-20">
@@ -170,11 +171,7 @@ const Projects = () => {
         </AnimatePresence>
 
         {/* Projects Grid */}
-        {loading ? (
-          <div className="text-center text-gray-400">Loading projects...</div>
-        ) : error ? (
-          <div className="text-center text-red-400">{error}</div>
-        ) : filteredProjects && filteredProjects.length > 0 ? (
+        {filteredProjects && filteredProjects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project, index) => (
               <motion.div

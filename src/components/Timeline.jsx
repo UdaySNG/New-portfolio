@@ -1,9 +1,12 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaGraduationCap, FaBriefcase, FaCode, FaTrophy } from 'react-icons/fa';
 import useFetchTimeline from '../hooks/useFetchTimeline';
+import Loading from './Loading';
 
 const Timeline = () => {
   const { events, loading, error } = useFetchTimeline();
+  const [activeEvent, setActiveEvent] = useState(null);
 
   const getIcon = (type) => {
     switch (type) {
@@ -33,21 +36,8 @@ const Timeline = () => {
     return `${fromDate} - ${toDate}`;
   };
 
-  if (loading) {
-    return (
-      <div className="text-center text-gray-400 py-8">
-        Loading timeline...
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center text-red-400 py-8">
-        {error}
-      </div>
-    );
-  }
+  if (loading) return <Loading text="Loading timeline..." compact />;
+  if (error) return <div className="text-center text-red-400">{error}</div>;
 
   return (
     <div className="relative">

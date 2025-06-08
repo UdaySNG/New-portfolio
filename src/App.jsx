@@ -1,13 +1,15 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect, lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Hero from './components/Hero';
 import AboutPreview from './components/AboutPreview';
 import FeaturedProjects from './components/FeaturedProjects';
 import GetInTouch from './components/GetInTouch';
-import Footer from './components/Footer';
+import Loading from './components/Loading.jsx';
 import ScrollToTop from './components/ScrollToTop';
 import ThemeToggle from './components/ThemeToggle';
+import NotFound from './pages/NotFound';
 
 // Lazy load pages
 const About = lazy(() => import('./pages/About'));
@@ -16,33 +18,24 @@ const Projects = lazy(() => import('./pages/Projects'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 const Contact = lazy(() => import('./pages/Contact'));
 
-// Loading component
-const Loading = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent"></div>
-  </div>
-);
-
-// Component to handle scroll behavior
-const ScrollToTopOnRouteChange = () => {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }, [pathname]);
-
-  return null;
-};
-
 function App() {
+  // Initialize dark mode
+  useEffect(() => {
+    const isDark = localStorage.getItem('theme') === 'dark' || 
+      (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
   return (
     <Router>
-      <div className="min-h-screen transition-colors duration-200">
-        <ScrollToTopOnRouteChange />
+      <div className="min-h-screen bg-white dark:bg-dark transition-colors duration-200">
         <Navbar />
+        <ScrollToTop />
         <ThemeToggle />
         <Routes>
           <Route path="/" element={
@@ -78,9 +71,10 @@ function App() {
               <Contact />
             </Suspense>
           } />
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
-        <ScrollToTop />
       </div>
     </Router>
   );
