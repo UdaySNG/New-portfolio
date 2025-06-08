@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import ProjectCard from './ProjectCard';
-import useFetchProjects from '../hooks/useFetchProjects';
+import useFetchFeaturedProjects from '../hooks/useFetchFeaturedProjects';
 
 const FeaturedProjects = () => {
-  const { projects, loading, error } = useFetchProjects();
+  const { projects, loading, error } = useFetchFeaturedProjects();
 
   return (
     <section id="featured-projects" className="py-20 relative overflow-hidden">
@@ -48,12 +48,12 @@ const FeaturedProjects = () => {
           <div className="text-center text-red-400">{error}</div>
         ) : projects && projects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.slice(0, 3).map((project) => (
+            {projects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
           </div>
         ) : (
-          <div className="text-center text-gray-400">No projects found</div>
+          <div className="text-center text-gray-400">No featured projects found</div>
         )}
       </div>
     </section>
