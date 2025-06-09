@@ -21,48 +21,46 @@ const NotFound = () => {
   }, []);
 
   useEffect(() => {
-    // Get the current count and last attempt time from localStorage
-    const currentCount = parseInt(localStorage.getItem('failedAttempts') || '0');
-    const lastAttemptTime = parseInt(localStorage.getItem('lastAttemptTime') || '0');
-    const currentTime = Date.now();
-    
-    // Reset counter if more than 1 hour has passed
-    if (currentTime - lastAttemptTime > 3600000) { // 1 hour in milliseconds
-      localStorage.setItem('failedAttempts', '0');
-      localStorage.setItem('lastAttemptTime', currentTime.toString());
-      setAttemptCount(0);
-    } else {
-      setAttemptCount(currentCount);
-    }
-
-    // Set different messages based on the count
     if (isAdminRoute) {
-      if (currentCount === 1) {
-        setMessage("Hmm, trying to access the admin area? Nice try!");
-      } else if (currentCount === 2) {
-        setMessage("Still trying? You're persistent!");
-      } else if (currentCount === 3) {
-        setMessage("Bro, seriously? Stop trying to hack my site 😅");
-      } else if (currentCount === 4) {
-        setMessage("Okay, you're really determined. But there's nothing here!");
-      } else if (currentCount === 5) {
-        setMessage("Alright, you win! Here's a cookie 🍪 (not really)");
-        setShowRickRoll(true);
-      } else if (currentCount > 5) {
-        setMessage("You're still here? Fine, take another cookie 🍪");
-        setShowRickRoll(true);
-      } else {
-        // First attempt
-        const newCount = currentCount + 1;
+      // Get the current count and last attempt time from localStorage
+      const currentCount = parseInt(localStorage.getItem('failedAttempts') || '0');
+      const lastAttemptTime = parseInt(localStorage.getItem('lastAttemptTime') || '0');
+      const currentTime = Date.now();
+      let newCount;
+      
+      // Reset counter if more than 1 hour has passed
+      if (currentTime - lastAttemptTime > 3600000) { // 1 hour in milliseconds
+        newCount = 1;
         localStorage.setItem('failedAttempts', newCount.toString());
         localStorage.setItem('lastAttemptTime', currentTime.toString());
         setAttemptCount(newCount);
+      } else {
+        newCount = currentCount + 1;
+        localStorage.setItem('failedAttempts', newCount.toString());
+        localStorage.setItem('lastAttemptTime', currentTime.toString());
+        setAttemptCount(newCount);
+      }
+
+      // Set different messages based on the count
+      if (newCount === 1) {
         setMessage("Hmm, trying to access the admin area? Nice try!");
+      } else if (newCount === 2) {
+        setMessage("Still trying? You're persistent!");
+      } else if (newCount === 3) {
+        setMessage("Bro, seriously? Stop trying to hack my site 😅");
+      } else if (newCount === 4) {
+        setMessage("Okay, you're really determined. But there's nothing here!");
+      } else if (newCount === 5) {
+        setMessage("Alright, you win! Here's a cookie 🍪 (not really)");
+        setShowRickRoll(true);
+      } else if (newCount > 5) {
+        setMessage("You're still here? Fine, take another cookie 🍪");
+        setShowRickRoll(true);
       }
     } else {
       setMessage("Oops! The page you're looking for seems to have vanished into the digital void.");
     }
-  }, [location.pathname, isAdminRoute]); // Only run when the path changes
+  }, [location.pathname, isAdminRoute]);
 
   return (
     <div className="min-h-screen bg-dark flex items-center justify-center px-4">

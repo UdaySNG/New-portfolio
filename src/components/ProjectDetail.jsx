@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useFetchProjectDetail } from '../hooks/useFetchProjectDetail';
 import Loading from './Loading';
+import GlowingImage from './GlowingImage';
 
 const ProjectDetail = ({ projectId }) => {
   const { project, loading, error } = useFetchProjectDetail(projectId);
@@ -49,14 +50,11 @@ const ProjectDetail = ({ projectId }) => {
 
           <div className="space-y-8">
             {project.images.map((image, index) => (
-              <motion.img
+              <GlowingImage
                 key={index}
                 src={image}
                 alt={`${project.title} screenshot ${index + 1}`}
-                className="w-full rounded-lg shadow-lg"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                index={index}
               />
             ))}
           </div>
