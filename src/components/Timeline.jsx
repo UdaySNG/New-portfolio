@@ -36,47 +36,53 @@ const Timeline = () => {
     return `${fromDate} - ${toDate}`;
   };
 
-  if (loading) return <Loading text="Loading timeline..." compact />;
-  if (error) return <Loading text="Loading timeline..." compact error={error} />;
+  if (loading) return (
+    <div className="min-h-[400px] flex items-center justify-center">
+      <Loading text="Loading timeline..." compact />
+    </div>
+  );
+  if (error) return (
+    <div className="min-h-[400px] flex items-center justify-center">
+      <Loading text="Loading timeline..." compact error={error} />
+    </div>
+  );
 
   return (
-    <div className="relative">
-      {/* Timeline line */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-accent/20" />
+    <section className="py-20 bg-white dark:bg-dark">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl font-bold mb-4 text-primary">Timeline</h2>
+          <p className="text-secondary max-w-2xl mx-auto">
+            A journey through my professional and educational milestones.
+          </p>
+        </motion.div>
 
-      {/* Timeline events */}
-      <div className="space-y-12">
-        {events.map((event, index) => (
-          <motion.div
-            key={event.id}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            className={`relative flex items-center ${
-              index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
-            }`}
-          >
-            {/* Content */}
-            <div className={`w-1/2 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8'}`}>
-              <div className="bg-white dark:bg-dark-lighter p-6 rounded-lg shadow-lg">
-                <h3 className="text-xl font-semibold mb-2 text-primary">{event.title}</h3>
-                <p className="text-secondary mb-2">{formatDateRange(event.date_from, event.date_to, event.present)}</p>
-                <p className="text-gray-600 dark:text-gray-300">{event.description}</p>
+        <div className="relative">
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-accent"></div>
+          {events.map((event, index) => (
+            <motion.div
+              key={event.id}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className={`relative mb-12 ${index % 2 === 0 ? 'ml-auto' : 'mr-auto'} w-1/2 pr-12 ${index % 2 === 0 ? 'pl-12' : ''}`}
+            >
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+                <div className="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 bg-accent rounded-full left-0"></div>
+                <h3 className="text-xl font-bold mb-2 text-primary">{event.title}</h3>
+                <p className="text-secondary mb-2">{event.date}</p>
+                <p className="text-gray-600 dark:text-gray-400">{event.description}</p>
               </div>
-            </div>
-
-            {/* Icon */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-accent flex items-center justify-center text-white">
-              {getIcon(event.type)}
-            </div>
-
-            {/* Empty space for alignment */}
-            <div className="w-1/2" />
-          </motion.div>
-        ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

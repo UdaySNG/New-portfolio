@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGithub, FaTwitter } from 'react-icons/fa';
+import Notification from '../components/Notification';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,9 @@ const Contact = () => {
     message: ''
   });
 
+  const [notification, setNotification] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -17,10 +21,56 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('http://localhost:8000/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 201) {
+        // Success case
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+        setNotification({
+          type: 'success',
+          message: 'Message sent successfully!'
+        });
+      } else if (response.status === 422) {
+        // Validation errors
+        const errorMessages = Object.entries(data.errors)
+          .map(([field, messages]) => `${field}: ${messages.join(', ')}`)
+          .join('\n');
+        setNotification({
+          type: 'error',
+          message: `Validation errors:\n${errorMessages}`
+        });
+      } else {
+        // Other errors
+        throw new Error(data.message || 'Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setNotification({
+        type: 'error',
+        message: error.message || 'Failed to send message. Please try again later.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const socialLinks = [
@@ -43,6 +93,13 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen py-20">
+      {notification && (
+        <Notification
+          type={notification.type}
+          message={notification.message}
+          onClose={() => setNotification(null)}
+        />
+      )}
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -135,7 +192,10 @@ const Contact = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 bg-transparent border-b-2 border-gray-200 dark:border-gray-700 text-primary placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-accent transition-colors"
+                  disabled={isSubmitting}
+                  className={`w-full px-4 py-2 bg-transparent border-b-2 border-gray-200 dark:border-gray-700 text-primary placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-accent transition-colors ${
+                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   placeholder="Your name"
                   required
                 />
@@ -150,7 +210,10 @@ const Contact = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 bg-transparent border-b-2 border-gray-200 dark:border-gray-700 text-primary placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-accent transition-colors"
+                  disabled={isSubmitting}
+                  className={`w-full px-4 py-2 bg-transparent border-b-2 border-gray-200 dark:border-gray-700 text-primary placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-accent transition-colors ${
+                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   placeholder="your.email@example.com"
                   required
                 />
@@ -165,7 +228,10 @@ const Contact = () => {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 bg-transparent border-b-2 border-gray-200 dark:border-gray-700 text-primary placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-accent transition-colors"
+                  disabled={isSubmitting}
+                  className={`w-full px-4 py-2 bg-transparent border-b-2 border-gray-200 dark:border-gray-700 text-primary placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-accent transition-colors ${
+                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   placeholder="Subject of your message"
                   required
                 />
@@ -179,17 +245,25 @@ const Contact = () => {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
+                  disabled={isSubmitting}
                   rows="4"
-                  className="w-full px-4 py-2 bg-transparent border-b-2 border-gray-200 dark:border-gray-700 text-primary placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-accent transition-colors resize-none"
+                  className={`w-full px-4 py-2 bg-transparent border-b-2 border-gray-200 dark:border-gray-700 text-primary placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-accent transition-colors resize-none ${
+                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                   placeholder="Your message"
                   required
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="w-full px-6 py-3 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors font-medium"
+                disabled={isSubmitting}
+                className={`w-full px-6 py-3 bg-accent text-white rounded-lg transition-colors font-medium ${
+                  isSubmitting 
+                    ? 'opacity-50 cursor-not-allowed' 
+                    : 'hover:bg-accent/90'
+                }`}
               >
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </motion.div>

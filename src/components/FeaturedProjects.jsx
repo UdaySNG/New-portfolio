@@ -22,13 +22,13 @@ const FeaturedProjects = () => {
           </p>
         </motion.div>
 
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ${loading ? 'min-h-[400px]' : ''}`}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {loading ? (
-            <div className="col-span-full flex items-center justify-center">
+            <div className="col-span-full h-[500px] flex items-center justify-center">
               <Loading text="Loading featured projects..." compact />
             </div>
           ) : error ? (
-            <div className="col-span-full flex items-center justify-center">
+            <div className="col-span-full h-[500px] flex items-center justify-center">
               <Loading text="Loading featured projects..." compact error={error} />
             </div>
           ) : (
