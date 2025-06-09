@@ -1,69 +1,126 @@
 {
-  "projects": [
-    {
-      "id": 1,
-      "title": "E-Commerce Platform",
-      "description": "A full-stack e-commerce platform built with React, Node.js, and MongoDB. Features include user authentication, product management, and payment integration.",
-      "images": [
-        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-      ],
-      "techStack": ["React", "Node.js", "MongoDB", "Stripe"],
-      "features": [
-        "User authentication and authorization",
-        "Product catalog with search and filtering",
-        "Shopping cart and checkout process",
-        "Payment integration with Stripe",
-        "Order management and tracking",
-        "Admin dashboard for product management"
-      ],
-      "challenges": "The main challenge was implementing a scalable cart system that could handle concurrent users and maintain data consistency. This was solved by implementing a Redis-based cart system with optimistic locking.",
-      "demoUrl": "https://example.com",
-      "githubUrl": "https://github.com/example"
-    },
-    {
-      "id": 2,
-      "title": "Task Management App",
-      "description": "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
-      "images": [
-        "https://images.unsplash.com/photo-1540350394557-8d14678e7f91?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80",
-        "https://images.unsplash.com/photo-1540350394557-8d14678e7f91?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"
-      ],
-      "techStack": ["React", "Firebase", "Tailwind CSS"],
-      "features": [
-        "Real-time task updates using Firebase",
-        "Drag-and-drop task organization",
-        "Team collaboration features",
-        "Task assignment and notifications",
-        "Progress tracking and reporting",
-        "Customizable task categories and labels"
-      ],
-      "challenges": "Implementing real-time updates while maintaining performance was challenging. This was solved by implementing efficient data structures and using Firebase's real-time database with proper indexing.",
-      "demoUrl": "https://example.com",
-      "githubUrl": "https://github.com/example"
-    },
-    {
-      "id": 3,
-      "title": "Portfolio Website",
-      "description": "A modern portfolio website showcasing projects and skills with smooth animations and responsive design.",
-      "images": [
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1415&q=80",
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1415&q=80",
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1415&q=80"
-      ],
-      "techStack": ["React", "Tailwind CSS", "Framer Motion"],
-      "features": [
-        "Responsive design for all devices",
-        "Smooth animations and transitions",
-        "Project showcase with detailed views",
-        "Contact form with validation",
-        "Dark mode support",
-        "Performance optimized"
-      ],
-      "challenges": "Creating smooth animations while maintaining performance was the main challenge. This was solved by using Framer Motion's optimized animation system and implementing proper code splitting.",
-      "demoUrl": "https://example.com",
-      "githubUrl": "https://github.com/example"
-    }
-  ]
+    "data": [
+        {
+            "id": 1,
+            "title": "IngsScribblings",
+            "category": "Web Development",
+            "description": "Een verhalen app ontwikkeld in teamverband waarbij ik als frontend developer werkte. De applicatie is gebouwd met React.js en Tailwind CSS voor de frontend, en maakt gebruik van Django voor de backend API. Het project demonstreert mijn vaardigheden in moderne web development en team collaboration.",
+            "image_url": "projects/Screenshot 2025-06-08 123131.webp",
+            "github_url": null,
+            "live_url": "https://ingsscribblings.nl/",
+            "featured": 1,
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "React.js",
+                    "color": "#61DAFB"
+                },
+                {
+                    "id": 3,
+                    "name": "JavaScript",
+                    "color": "#F7DF1E"
+                },
+                {
+                    "id": 6,
+                    "name": "Tailwind CSS",
+                    "color": "#06B6D4"
+                },
+                {
+                    "id": 8,
+                    "name": "CSS",
+                    "color": "#1572B6"
+                }
+            ],
+            "created_at": "2025-06-09T14:53:53.000000Z",
+            "updated_at": "2025-06-09T18:31:30.000000Z"
+        },
+        {
+            "id": 2,
+            "title": "Amsterdam-bmv",
+            "category": "Web Development",
+            "description": "Using React and CSS i created an Frontend page for the BMV department of Amsterdam's Government.",
+            "image_url": "projects/istockphoto-1479582112-612x612.webp",
+            "github_url": "https://github.com/Uday-Singh1/amsterdam-bmv?tab=readme-ov-file",
+            "live_url": "https://uday-singh1.github.io/amsterdam-bmv/",
+            "featured": 1,
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "React.js",
+                    "color": "#61DAFB"
+                },
+                {
+                    "id": 8,
+                    "name": "CSS",
+                    "color": "#1572B6"
+                }
+            ],
+            "created_at": "2025-06-09T16:30:50.000000Z",
+            "updated_at": "2025-06-09T21:47:42.000000Z"
+        },
+        {
+            "id": 3,
+            "title": "Drivenow",
+            "category": "Web Development",
+            "description": "A app to rent cars ",
+            "image_url": "projects/images.webp",
+            "github_url": "https://github.com/UdaySNG/Drivenow",
+            "live_url": "https://github.com/UdaySNG/Drivenow",
+            "featured": 1,
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "React.js",
+                    "color": "#61DAFB"
+                },
+                {
+                    "id": 4,
+                    "name": "PHP",
+                    "color": "#777BB4"
+                },
+                {
+                    "id": 5,
+                    "name": "Laravel",
+                    "color": "#FF2D20"
+                },
+                {
+                    "id": 6,
+                    "name": "Tailwind CSS",
+                    "color": "#06B6D4"
+                }
+            ],
+            "created_at": "2025-06-09T18:33:50.000000Z",
+            "updated_at": "2025-06-09T21:47:42.000000Z"
+        },
+        {
+            "id": 4,
+            "title": "Crypto-pal",
+            "category": "Web Development",
+            "description": "A app to help you trading",
+            "image_url": "projects/tradepal.webp",
+            "github_url": "https://github.com/UdaySNG/Crypto-pal-frontend",
+            "live_url": null,
+            "featured": 0,
+            "tags": [
+                {
+                    "id": 2,
+                    "name": "Vue.js",
+                    "color": "#4FC08D"
+                },
+                {
+                    "id": 3,
+                    "name": "JavaScript",
+                    "color": "#F7DF1E"
+                },
+                {
+                    "id": 6,
+                    "name": "Tailwind CSS",
+                    "color": "#06B6D4"
+                }
+            ],
+            "created_at": "2025-06-09T19:21:46.000000Z",
+            "updated_at": "2025-06-09T21:47:42.000000Z"
+        }
+    ],
+    "exported_at": "2025-06-09T21:51:35+00:00"
 } 

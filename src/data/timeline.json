@@ -1,0 +1,53 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "title": "Software Development - MBO-4",
+            "description": "Studie aan het Mediacollege Amsterdam in Software Development",
+            "date_from": "2021-09-01T00:00:00.000000Z",
+            "date_to": null,
+            "present": true,
+            "location": "Amsterdam",
+            "type": "education",
+            "icon": "academic-cap",
+            "color": "blue",
+            "order": 1,
+            "date_format": "full",
+            "created_at": "2025-06-09T14:53:53.000000Z",
+            "updated_at": "2025-06-09T14:53:53.000000Z"
+        },
+        {
+            "id": 2,
+            "title": "Stage bij NetXZz",
+            "description": "Web development stage bij NetXZ in Amsterdam Sloterdijk. Gewerkt met React.js, Laravel en WordPress. Focus op het verbeteren van bestaande vaardigheden en het leren van nieuwe technologieën.",
+            "date_from": "2024-02-01T00:00:00.000000Z",
+            "date_to": "2024-07-01T00:00:00.000000Z",
+            "present": false,
+            "location": "Amsterdam Sloterdijk",
+            "type": "work",
+            "icon": "briefcase",
+            "color": "green",
+            "order": 2,
+            "date_format": "full",
+            "created_at": "2025-06-09T14:53:54.000000Z",
+            "updated_at": "2025-06-09T14:53:54.000000Z"
+        },
+        {
+            "id": 3,
+            "title": "Stage bij 12Build",
+            "description": "Stage bij 12Build in Zwolle/Nijverdal. Focus op bug fixing en feature development voor hun aannemers platform. Gewerkt met PHP, Laravel, Vue.js en Tailwind CSS.",
+            "date_from": "2024-07-01T00:00:00.000000Z",
+            "date_to": "2024-12-01T00:00:00.000000Z",
+            "present": false,
+            "location": "Zwolle/Nijverdal",
+            "type": "work",
+            "icon": "briefcase",
+            "color": "green",
+            "order": 3,
+            "date_format": "full",
+            "created_at": "2025-06-09T14:53:54.000000Z",
+            "updated_at": "2025-06-09T14:53:54.000000Z"
+        }
+    ],
+    "exported_at": "2025-06-09T21:51:35+00:00"
+} 

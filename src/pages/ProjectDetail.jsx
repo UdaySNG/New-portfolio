@@ -4,8 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { FaGithub, FaExternalLinkAlt, FaArrowLeft } from 'react-icons/fa';
 import Loading from '../components/Loading';
+import useFetchProjectDetail from '../hooks/useFetchProjectDetail';
 
-const BASE_URL = 'http://localhost:8000/api';
+const BASE_URL = 'http://localhost:8000';
 
 const AccordionItem = ({ title, children, isOpen, onClick }) => {
   return (
@@ -38,7 +39,7 @@ const AccordionItem = ({ title, children, isOpen, onClick }) => {
   );
 };
 
-const ImageSlider = ({ images }) => {
+const ImageSlider = ({ images, isUsingFallback }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
@@ -49,13 +50,38 @@ const ImageSlider = ({ images }) => {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
+  const getImageUrl = (image) => {
+    if (!image) return '/placeholder-image.jpg';
+    
+    if (isUsingFallback) {
+      // For fallback data, the image URL is already a full URL
+      return image;
+    }
+    // For API data, we need to prepend the storage URL
+    return `${BASE_URL}/storage/${image}`;
+  };
+
+  if (!images || images.length === 0) {
+    return (
+      <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+        <div className="absolute inset-0 flex items-center justify-center text-gray-400">
+          No image available
+        </div>
+      </div>
+    );
+  }
+
   if (images.length <= 1) {
     return (
       <div className="relative aspect-video rounded-lg overflow-hidden">
         <img
-          src={`http://localhost:8000/storage/${images[0]}`}
+          src={getImageUrl(images[0])}
           alt="Project"
           className="w-full h-full object-cover"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = '/placeholder-image.jpg';
+          }}
         />
       </div>
     );
@@ -64,9 +90,13 @@ const ImageSlider = ({ images }) => {
   return (
     <div className="relative aspect-video rounded-lg overflow-hidden">
       <img
-        src={`http://localhost:8000/storage/${images[currentIndex]}`}
+        src={getImageUrl(images[currentIndex])}
         alt="Project"
         className="w-full h-full object-cover"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = '/placeholder-image.jpg';
+        }}
       />
       <button
         onClick={prevSlide}
@@ -87,32 +117,10 @@ const ImageSlider = ({ images }) => {
 const ProjectDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [project, setProject] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { project, loading, isUsingFallback, error } = useFetchProjectDetail(id);
   const [openAccordion, setOpenAccordion] = useState('overview');
 
-  useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/projects/${id}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch project');
-        }
-        const data = await response.json();
-        setProject(data);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-
-    fetchProject();
-  }, [id]);
-
   if (loading) return <Loading />;
-  if (error) return <div className="min-h-screen bg-white dark:bg-dark pt-20 text-center text-red-400">{error}</div>;
   if (!project) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white dark:bg-dark">
@@ -163,7 +171,7 @@ const ProjectDetail = () => {
             </div>
           </div>
 
-          <ImageSlider images={[project.image_url]} />
+          <ImageSlider images={[project.image_url]} isUsingFallback={isUsingFallback} />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-4">

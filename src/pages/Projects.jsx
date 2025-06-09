@@ -31,7 +31,7 @@ const Projects = () => {
 
   const filteredProjects = projects?.filter(project => {
     const matchesCategory = selectedCategory === 'all' || 
-      (project.category && project.category.toLowerCase() === (categoryMapping[selectedCategory] || selectedCategory).toLowerCase());
+      (project.category && project.category.toLowerCase() === selectedCategory.toLowerCase());
     const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          project.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesTech = selectedTech.length === 0 || 
@@ -112,11 +112,18 @@ const Projects = () => {
                   <div className="flex flex-wrap gap-2">
                     <button
                       onClick={() => setSelectedCategory('all')}
-                      className={`px-4 py-2 rounded-lg capitalize transition-colors ${
+                      className={`px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
                         selectedCategory === 'all'
-                          ? 'bg-accent text-white'
-                          : 'bg-gray-100 dark:bg-dark-lighter text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-lighter/80'
+                          ? 'text-white'
+                          : 'text-gray-700 dark:text-gray-300'
                       }`}
+                      style={{
+                        backgroundColor: selectedCategory === 'all'
+                          ? '#6366f1'
+                          : '#6366f115',
+                        border: '1px solid #6366f130',
+                        boxShadow: '0 2px 4px #6366f110'
+                      }}
                     >
                       All
                     </button>
@@ -124,11 +131,18 @@ const Projects = () => {
                       <button
                         key={category.id}
                         onClick={() => setSelectedCategory(category.name)}
-                        className={`px-4 py-2 rounded-lg capitalize transition-colors ${
+                        className={`px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
                           selectedCategory === category.name
-                            ? 'bg-accent text-white'
-                            : 'bg-gray-100 dark:bg-dark-lighter text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-lighter/80'
+                            ? 'text-white'
+                            : 'text-gray-700 dark:text-gray-300'
                         }`}
+                        style={{
+                          backgroundColor: selectedCategory === category.name
+                            ? '#6366f1'
+                            : '#6366f115',
+                          border: '1px solid #6366f130',
+                          boxShadow: '0 2px 4px #6366f110'
+                        }}
                       >
                         {category.name}
                       </button>
@@ -140,19 +154,29 @@ const Projects = () => {
                 <div className="mb-6">
                   <label className="block text-sm font-medium mb-2 text-secondary">Technologies</label>
                   <div className="flex flex-wrap gap-2">
-                    {availableTech.map(tech => (
-                      <button
-                        key={tech}
-                        onClick={() => toggleTech(tech)}
-                        className={`px-4 py-2 rounded-lg transition-colors ${
-                          selectedTech.includes(tech)
-                            ? 'bg-accent text-white'
-                            : 'bg-gray-100 dark:bg-dark-lighter text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-lighter/80'
-                        }`}
-                      >
-                        {tech}
-                      </button>
-                    ))}
+                    {availableTech.map(tech => {
+                      const tag = projects?.find(p => p.tags?.some(t => t.name === tech))?.tags?.find(t => t.name === tech);
+                      return (
+                        <button
+                          key={tech}
+                          onClick={() => toggleTech(tech)}
+                          className={`px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
+                            selectedTech.includes(tech)
+                              ? 'text-white'
+                              : 'text-gray-700 dark:text-gray-300'
+                          }`}
+                          style={{
+                            backgroundColor: selectedTech.includes(tech)
+                              ? tag?.color || '#6366f1'
+                              : `${tag?.color || '#6366f1'}15`,
+                            border: `1px solid ${tag?.color || '#6366f1'}30`,
+                            boxShadow: `0 2px 4px ${tag?.color || '#6366f1'}10`
+                          }}
+                        >
+                          {tech}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 

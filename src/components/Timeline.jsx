@@ -1,27 +1,9 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaGraduationCap, FaBriefcase, FaCode, FaTrophy } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import useFetchTimeline from '../hooks/useFetchTimeline';
 import Loading from './Loading';
 
 const Timeline = () => {
-  const { events, loading, error } = useFetchTimeline();
-  const [activeEvent, setActiveEvent] = useState(null);
-
-  const getIcon = (type) => {
-    switch (type) {
-      case 'education':
-        return <FaGraduationCap className="w-6 h-6" />;
-      case 'work':
-        return <FaBriefcase className="w-6 h-6" />;
-      case 'project':
-        return <FaCode className="w-6 h-6" />;
-      case 'achievement':
-        return <FaTrophy className="w-6 h-6" />;
-      default:
-        return <FaCode className="w-6 h-6" />;
-    }
-  };
+  const { events, loading, isUsingFallback, error } = useFetchTimeline();
 
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -41,9 +23,16 @@ const Timeline = () => {
       <Loading text="Loading timeline..." compact />
     </div>
   );
-  if (error) return (
+
+  if (error && !isUsingFallback) return (
     <div className="min-h-[400px] flex items-center justify-center">
       <Loading text="Loading timeline..." compact error={error} />
+    </div>
+  );
+
+  if (!events || events.length === 0) return (
+    <div className="text-center text-gray-500 dark:text-gray-400 py-8">
+      <p>No timeline events available at the moment.</p>
     </div>
   );
 
@@ -75,7 +64,7 @@ const Timeline = () => {
               <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
                 <div className="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 bg-accent rounded-full left-0"></div>
                 <h3 className="text-xl font-bold mb-2 text-primary">{event.title}</h3>
-                <p className="text-secondary mb-2">{event.date}</p>
+                <p className="text-secondary mb-2">{formatDateRange(event.date_from, event.date_to, event.present)}</p>
                 <p className="text-gray-600 dark:text-gray-400">{event.description}</p>
               </div>
             </motion.div>

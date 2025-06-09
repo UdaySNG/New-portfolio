@@ -66,17 +66,34 @@ const ProjectCard = ({ project }) => {
         </h3>
         <p className="text-gray-600 dark:text-secondary mb-4 line-clamp-2">{project.description}</p>
         
+        {/* Category */}
+        {project.category && (
+          <div className="mb-3">
+            <span
+              className="px-3 py-1 rounded-full text-sm font-medium"
+              style={{ 
+                backgroundColor: '#6366f115',
+                color: '#6366f1',
+                border: '1px solid #6366f130'
+              }}
+            >
+              {project.category}
+            </span>
+          </div>
+        )}
+        
         {/* Tags */}
         {hasTags && (
           <div className="flex flex-wrap gap-2 mb-4">
             {project.tags.map((tag) => (
               <span
                 key={tag.id}
-                className="px-3 py-1 rounded-full text-sm font-medium"
+                className="px-3 py-1 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105"
                 style={{ 
                   backgroundColor: `${tag.color}15`,
                   color: tag.color,
-                  border: `1px solid ${tag.color}30`
+                  border: `1px solid ${tag.color}30`,
+                  boxShadow: `0 2px 4px ${tag.color}10`
                 }}
               >
                 {tag.name}
