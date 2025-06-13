@@ -113,7 +113,7 @@ const Navbar = () => {
                     className="group relative text-4xl font-medium text-gray-900 dark:text-white hover:text-accent dark:hover:text-accent transition-colors"
                   >
                     {item.name}
-                    <span className="absolute -bottom-2 -left-12 right-0 h-0.5 bg-gray-300 dark:bg-gray-600 group-hover:bg-accent transition-colors" />
+                    <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-accent/50 transition-all duration-500 ease-in-out group-hover:w-[110%]" />
                   </Link>
                 ))}
               </nav>

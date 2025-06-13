@@ -39,8 +39,9 @@ const AccordionItem = ({ title, children, isOpen, onClick }) => {
   );
 };
 
-const ImageSlider = ({ images, isUsingFallback }) => {
+const ImageSlider = ({ images, isUsingFallback, project, onError }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [imageError, setImageError] = useState(false);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % images.length);
@@ -51,7 +52,7 @@ const ImageSlider = ({ images, isUsingFallback }) => {
   };
 
   const getImageUrl = (image) => {
-    if (!image) return '/placeholder-image.jpg';
+    if (!image) return null;
     
     if (isUsingFallback) {
       // For fallback data, the image URL is already a full URL
@@ -61,14 +62,13 @@ const ImageSlider = ({ images, isUsingFallback }) => {
     return `${BASE_URL}/storage/${image}`;
   };
 
-  if (!images || images.length === 0) {
-    return (
-      <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
-        <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-          No image available
-        </div>
-      </div>
-    );
+  const handleImageError = () => {
+    setImageError(true);
+    onError();
+  };
+
+  if (!images || images.length === 0 || imageError) {
+    return null;
   }
 
   if (images.length <= 1) {
@@ -78,10 +78,7 @@ const ImageSlider = ({ images, isUsingFallback }) => {
           src={getImageUrl(images[0])}
           alt="Project"
           className="w-full h-full object-cover"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = '/placeholder-image.jpg';
-          }}
+          onError={handleImageError}
         />
       </div>
     );
@@ -93,10 +90,7 @@ const ImageSlider = ({ images, isUsingFallback }) => {
         src={getImageUrl(images[currentIndex])}
         alt="Project"
         className="w-full h-full object-cover"
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = '/placeholder-image.jpg';
-        }}
+        onError={handleImageError}
       />
       <button
         onClick={prevSlide}
@@ -119,6 +113,7 @@ const ProjectDetail = () => {
   const navigate = useNavigate();
   const { project, loading, isUsingFallback, error } = useFetchProjectDetail(id);
   const [openAccordion, setOpenAccordion] = useState('overview');
+  const [imageError, setImageError] = useState(false);
 
   if (loading) return <Loading />;
   if (!project) {
@@ -138,6 +133,8 @@ const ProjectDetail = () => {
     );
   }
 
+  const hasImage = project.image_url && !imageError;
+
   return (
     <div className="min-h-screen bg-white dark:bg-dark pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -152,7 +149,7 @@ const ProjectDetail = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-8"
+          className={`space-y-8 ${!hasImage ? 'pt-4' : ''}`}
         >
           <div>
             <div className="flex items-center gap-4 mb-4">
@@ -171,7 +168,12 @@ const ProjectDetail = () => {
             </div>
           </div>
 
-          <ImageSlider images={[project.image_url]} isUsingFallback={isUsingFallback} />
+          <ImageSlider 
+            images={[project.image_url]} 
+            isUsingFallback={isUsingFallback} 
+            project={project}
+            onError={() => setImageError(true)}
+          />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-4">

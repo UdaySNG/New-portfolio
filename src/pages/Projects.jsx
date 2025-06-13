@@ -7,8 +7,8 @@ import ProjectCard from '../components/ProjectCard';
 import Loading from '../components/Loading';
 
 const Projects = () => {
-  const { projects, loading: projectsLoading, error: projectsError } = useFetchProjects();
-  const { categories, loading: categoriesLoading, error: categoriesError } = useFetchCategories();
+  const { projects, loading: projectsLoading, isUsingFallback: isUsingProjectsFallback, error: projectsError } = useFetchProjects();
+  const { categories, loading: categoriesLoading, isUsingFallback: isUsingCategoriesFallback, error: categoriesError } = useFetchCategories();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,6 +16,7 @@ const Projects = () => {
 
   const loading = projectsLoading || categoriesLoading;
   const error = projectsError || categoriesError;
+  const isUsingFallback = isUsingProjectsFallback || isUsingCategoriesFallback;
 
   // Get unique technologies from all projects
   const availableTech = [...new Set(projects?.flatMap(project => 
@@ -55,7 +56,7 @@ const Projects = () => {
   };
 
   if (loading) return <Loading text="Fetching projects..." />;
-  if (error) return <div className="min-h-screen bg-white dark:bg-dark pt-20 text-center text-red-400">{error}</div>;
+  if (error && !isUsingFallback) return <div className="min-h-screen bg-white dark:bg-dark pt-20 text-center text-red-400">{error}</div>;
 
   return (
     <div className="min-h-screen py-20">
