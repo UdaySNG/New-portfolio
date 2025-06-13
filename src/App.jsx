@@ -32,8 +32,8 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <div className="min-h-screen bg-white dark:bg-dark transition-colors duration-200">
+    <Router basename="/New-portfolio">
+      <div className="min-h-screen bg-white dark:bg-dark transition-colors duration-300">
         <Navbar />
         <ScrollToTop />
         <ThemeToggle />
